@@ -17,9 +17,11 @@ def update():
     soup = BeautifulSoup(page.content, 'html.parser')
     results = soup.find_all('div', {'class' : 'ExResult-row'})
     for result in results:
-        print(result)
+        #print(result)
+        for tag in result.find_all('a'):
+            print(tag.text)
+        print(result.find('div', {'class' : 'ExRating-badge'}).text)
         print("\n NEXT \n")
-        print(result.find('div', {'itemprop': 'name'}))
 
 while True:
     command = input(
