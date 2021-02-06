@@ -32,7 +32,6 @@ def new():
         print(tags)
         rating = result.find('div', {'class' : 'ExRating-badge'}).text.strip()
         print(rating)
-        print("\n")
 
         data.append({
             'exercise': tags[0],
