@@ -4,20 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-# Establish URL and headers to avoid web scraping prevention
-url = 'https://www.bodybuilding.com/exercises/finder'
-
-headers = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0'
-}
-
-# Open exercise_list.json file if it exists, otherwise leave empty
-data = []
-try:
-    with open('exercise_list.json','r') as json_file:
-        data = json.load(json_file)
-except FileNotFoundError:
-    print("Note: exercise_list.json does not exist\n")
+### Helper Functions ###
 
 def new():
     global data
@@ -70,6 +57,22 @@ def remove(exercise):
             break
     if not found:
         print("Exercise not found!")
+
+### Main Function ###
+
+# Establish URL and headers to avoid web scraping prevention
+url = 'https://www.bodybuilding.com/exercises/finder'
+headers = {
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0'
+}
+
+# Open exercise_list.json file if it exists, otherwise leave empty
+data = []
+try:
+    with open('exercise_list.json','r') as json_file:
+        data = json.load(json_file)
+except FileNotFoundError:
+    print("Note: exercise_list.json does not exist\n")
 
 while True:
     command = input(
