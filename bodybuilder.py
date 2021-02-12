@@ -4,20 +4,20 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
+# Establish URL and headers to avoid web scraping prevention
 url = 'https://www.bodybuilding.com/exercises/finder/'
 
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0'
 }
 
+# Open exercise_list.json file if it exists, otherwise leave empty
 data = []
-
-def exercises():
-    global data
-    data.clear()
+try:
     with open('exercise_list.json','r') as json_file:
         data = json.load(json_file)
-    print(data)
+except FileNotFoundError:
+    print("Note: exercise_list.json does not exist\n")
 
 # Scrapes Bodybuilding.com website to obtain all exercises up to page 5
 def new():
@@ -44,8 +44,11 @@ def new():
         json.dump(data, outfile, indent=2)
 
 def generate(num):
-    exercises()
     index = []
+    if len(data) < num:
+        print("Error: Number request is higher than number of exercises in list")
+        return
+
     # Keep rolling numbers until [num] unique numbers have been generated
     while len(index) < num:
         roll = random.randrange(0, 10)
@@ -56,7 +59,6 @@ def generate(num):
     print(index)
 
 def remove(exercise):
-    exercises()
     global data
     print(data)
     found = False
