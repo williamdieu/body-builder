@@ -26,16 +26,14 @@ def new():
                 'equipment': tags[2],
                 'rating': rating
             })
-
-    with open('exercise_list.json','w') as outfile:
-        json.dump(data, outfile, indent=2)
+    writeToJson()
 
 def generate(num):
     index = []
+    # Check if number of exercises is more than number requested
     if len(data) < num:
         print("Error: Number request is higher than number of exercises in list")
         return
-
     # Keep rolling numbers until [num] unique numbers have been generated
     while len(index) < num:
         roll = random.randrange(0, 10)
@@ -47,15 +45,17 @@ def generate(num):
 
 def remove(exercise):
     global data
-    print(data)
-    found = False
     for i in data:
         if exercise == i['exercise']:
             data.remove(i)
-            found = True
-            break
-    if not found:
-        print("Exercise not found!")
+            writeToJson()
+            return
+    print("Exercise not found!")
+
+# Writes the data in data into exercise_list.json
+def writeToJson():
+    with open('exercise_list.json','w') as outfile:
+        json.dump(data, outfile, indent=2)
 
 ### Main Function ###
 
@@ -95,7 +95,7 @@ while True:
         except ValueError:
             print("Please provide a number as the second argument")
     elif command == "remove":
-        remove(input("Please input the exerise to be removed"))
+        remove(input("Please input the exerise to be removed: "))
     elif command == "exit":
         break
     else:
