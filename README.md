@@ -6,7 +6,7 @@ Body-builder is a tool designed to scrape bodybuilding.com to create an exercise
 
 ## Example Usage
 
-As a new user, I need to generate an exercise list so I call ==new==
+As a new user, I need to generate an exercise list so I call `new`
 
 
 
