@@ -31,26 +31,28 @@ def new():
 def generate(muscle, num):
     index = []
     exercises = []
-    if muscle == "any":
-        exercises = data
-    else:
-        for group in muscle.split():
-            for exercise in data:
-                if exercise['muscle'] == group:
-                    exercises.append(exercise)
+    for group in muscle.split():
+        if group == "any":
+            exercises = data
+            break
+        for exercise in data:
+            if exercise['muscle'] == group:
+                exercises.append(exercise)
+        print(group)
         print(exercises)
+    numExercises = len(exercises)
     # Check if number of exercises is more than number requested
-    if len(data) < num:
+    if numExercises < num:
         print("Error: Number request is higher than number of exercises in list")
         return
     # Keep rolling numbers until [num] unique numbers have been generated
+    print("\nExercises for this session are:")
     while len(index) < num:
-        roll = random.randrange(0, 10)
+        roll = random.randrange(0, numExercises)
         if roll not in index:
             index.append(roll)
-    for i in index:
-        print(data[i])
-    print(index)
+            print(exercises[roll])
+    print()
 
 def remove(exercise):
     global data
@@ -60,6 +62,10 @@ def remove(exercise):
             writeToJson()
             return
     print("Exercise not found!")
+
+def display():
+    for exercise in data:
+        print(exercise)
 
 # Writes the data in data into exercise_list.json
 def writeToJson():
@@ -93,9 +99,11 @@ while True:
         "update: Rescrapes Bodybuilding.com website to obtain any new exercises.\n"
         "generate: Generates exercise list for current session.\n"
         "remove: Removes exercise from exercise list.\n"
+        "display: Show exercises in list.\n"
         "exit: Exit program.\n"
         "\nEnter command: "
         )
+    print()
 
     if command == "new":
         new()
@@ -104,7 +112,7 @@ while True:
     elif command == "generate":
         print("Muscle groups available are: ")
         print(muscles)
-        muscle = input("Please input the muscle groups to target or type \"any\" for all: ")
+        muscle = input("\nPlease input the muscle groups to target or type \"any\" for all: ")
         try:
             num = int(input("Please input the number of exercises: "))
             generate(muscle, num)
@@ -112,6 +120,8 @@ while True:
             print("Please provide a number as the second argument")
     elif command == "remove":
         remove(input("Please input the exerise to be removed: "))
+    elif command == "display":
+        display()
     elif command == "exit":
         break
     else:
