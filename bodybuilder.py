@@ -28,8 +28,17 @@ def new():
             })
     writeToJson()
 
-def generate(num):
+def generate(muscle, num):
     index = []
+    exercises = []
+    if muscle == "any":
+        exercises = data
+    else:
+        for group in muscle.split():
+            for exercise in data:
+                if exercise['muscle'] == group:
+                    exercises.append(exercise)
+        print(exercises)
     # Check if number of exercises is more than number requested
     if len(data) < num:
         print("Error: Number request is higher than number of exercises in list")
@@ -67,9 +76,13 @@ headers = {
 
 # Open exercise_list.json file if it exists, otherwise leave empty
 data = []
+muscles = []
 try:
     with open('exercise_list.json','r') as json_file:
         data = json.load(json_file)
+    for exercise in data:
+        if exercise['muscle'] not in muscles:
+            muscles.append(exercise['muscle'])
 except FileNotFoundError:
     print("Note: exercise_list.json does not exist\n")
 
@@ -79,7 +92,7 @@ while True:
         "new: Scrapes Bodybuilding.com website to obtain all exercises up to page 5.\n"
         "update: Rescrapes Bodybuilding.com website to obtain any new exercises.\n"
         "generate: Generates exercise list for current session.\n"
-        "remove [exercise_name]: Removes exercise from exercise list.\n"
+        "remove: Removes exercise from exercise list.\n"
         "exit: Exit program.\n"
         "\nEnter command: "
         )
@@ -89,9 +102,12 @@ while True:
     elif command == "update":
         pass
     elif command == "generate":
+        print("Muscle groups available are: ")
+        print(muscles)
+        muscle = input("Please input the muscle groups to target or type \"any\" for all: ")
         try:
             num = int(input("Please input the number of exercises: "))
-            generate(num)
+            generate(muscle, num)
         except ValueError:
             print("Please provide a number as the second argument")
     elif command == "remove":
