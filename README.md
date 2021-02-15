@@ -4,7 +4,9 @@
 
 Body-builder is a tool designed to scrape bodybuilding.com to create an exercise list which can then be used to generate exercise sessions. This allows for a diverse range of exercises that the user can apply suitable for both beginners (who want to expose themselves to a wide variety) and regulars (who are plateauing due to repetitive motions and wish to fix that).
 
-## Usage
+## Example Usage
+
+As a new user, I need to generate an exercise list so I call ==new==
 
 
 
