@@ -38,8 +38,7 @@ def generate(muscle, num):
         for exercise in data:
             if exercise['muscle'] == group:
                 exercises.append(exercise)
-        print(group)
-        print(exercises)
+
     numExercises = len(exercises)
     # Check if number of exercises is more than number requested
     if numExercises < num:
@@ -63,14 +62,20 @@ def remove(exercise):
             return
     print("Exercise not found!")
 
+# Displays the exercises in data in terminal
 def display():
-    for exercise in data:
-        print(exercise)
+    print(*data, sep="\n")
+    print()
 
-# Writes the data in data into exercise_list.json
+# Writes the exercises in data into exercise_list.json
 def writeToJson():
     with open('exercise_list.json','w') as outfile:
         json.dump(data, outfile, indent=2)
+    global muscles
+    muscles.clear()
+    for exercise in data:
+        if exercise['muscle'] not in muscles:
+            muscles.append(exercise['muscle'])
 
 ### Main Function ###
 
@@ -111,7 +116,7 @@ while True:
         pass
     elif command == "generate":
         print("Muscle groups available are: ")
-        print(muscles)
+        print(*muscles, sep=', ')
         muscle = input("\nPlease input the muscle groups to target or type \"any\" for all: ")
         try:
             num = int(input("Please input the number of exercises: "))
@@ -123,6 +128,7 @@ while True:
     elif command == "display":
         display()
     elif command == "exit":
+        print("Goodbye! See you next time.")
         break
     else:
         print("Command not found")
